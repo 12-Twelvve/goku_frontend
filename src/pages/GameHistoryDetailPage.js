@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import NavigationBar1 from '../component/NavigationBar1';
 
 
-
 const GameLogPage = () => {
   const { id } = useParams();
   const [gameDetails, setGameDetails] = useState({});
@@ -38,13 +37,6 @@ const GameLogPage = () => {
           </div>
         ))}
       </div>
-      {/* <div className="game-replay">
-        {gameDetails.moves && gameDetails.moves.map((move, index) => (
-          <div key={index} className="stone-placement">
-            Stone {index + 1}: Row {move.row}, Column {move.col}
-          </div>
-        ))}
-      </div> */}
       <Link to="/games">Back to Games History</Link>
     </div>
   );

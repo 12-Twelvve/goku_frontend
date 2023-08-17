@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import NavigationBar from '../component/NavigationBar';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../component/AuthContext';
 import { useBoardSize } from '../component/BoardsizeContext';
 

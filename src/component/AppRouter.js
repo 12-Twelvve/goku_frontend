@@ -7,7 +7,6 @@ import GameHistoryPage from '../pages/GameHistoryPage';
 import GameHistoryDetailPage from '../pages/GameHistoryDetailPage';
 
 const AppRouter = () => {
-  const isAuthenticated = true; 
 
   return (
     <Router>

@@ -9,8 +9,6 @@ const GomokuGame = () => {
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [gameEnded, setGameEnded] = useState(false);
   const [winner, setWinner] = useState(false);
-  const [message, setMessage] = useState('');
-  const [showModal, setShowModal] = useState(false);
   let navigate = useNavigate()
 
   const handleCellClick = (row, col) => {
@@ -18,15 +16,12 @@ const GomokuGame = () => {
       const newBoard = [...board];
       newBoard[row][col] = currentPlayer;
       setBoard(newBoard);
-      console.log(board);
       if (checkWin()) {
         setGameEnded(true);
         setWinner(true)
-        console.log("winner");
         return
 
       } else if (checkDraw()) {
-        console.log('draw')
         setGameEnded(true)
         return
       }
