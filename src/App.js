@@ -1,10 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import AppRouter from './component/AppRouter';
+import { AuthProvider } from './component/AuthContext';
+import { BoardSizeProvider } from './component/BoardsizeContext';
 
-function App() {
+function App() {  
   return (
     <div className="App">
-      hello dumdum
+      <AuthProvider>
+        <BoardSizeProvider>
+          <AppRouter />
+        </BoardSizeProvider>
+      </AuthProvider>
     </div>
   );
 }
