@@ -24,7 +24,6 @@ const GameLogPage = () => {
     <div>
       <NavigationBar1/>
       <h4>Game #{Number(id) + 1} : {gameDetails.stats}</h4>
-      {/* Display game replay with stone placement order number */}
       <div className="board">
         {gameDetails.boardData?.map((row, rowIndex) => (
           <div key={rowIndex} className="row">

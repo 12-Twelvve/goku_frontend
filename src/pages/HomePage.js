@@ -41,7 +41,6 @@ const HomePage = () => {
         </div>
         <button onClick={handleStartGame}>Start Game</button>
       </div>
-      {/* Other content */}
     </div>
   );
 };

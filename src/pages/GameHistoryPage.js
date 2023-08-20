@@ -12,6 +12,7 @@ const GamesHistoryPage = () => {
 
   return (
     <div>
+      {/* games list  */}
       <NavigationBar1/>
       <ul>
         {games.map((game, index) => (
