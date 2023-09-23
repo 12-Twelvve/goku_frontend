@@ -1,8 +1,32 @@
 # Getting Started with Gomoku Game
 
-In the project directory, you can run:
-### `npm start`
 
-### Logout feature
-logout feature is added in the system , which display a button when a user loged in .
-the logout button clean the authentication status. and bring the app to the initial state .
+**Prerequisites:**
+  - node v19.0.0 or higher installed on your machine.
+  - user access: username:`superman` password:`qwerty`
+   
+
+## Steps to Run the code.
+
+0. **Extract the bundle file:**
+  
+1. **Navigate to the Project Directory:**
+   - Change the directory to your application.
+   ```
+   cd your-app-directory
+   ```
+2. **Install the packages:**
+   ```
+    npm install
+    
+   ```
+3. **Run the Application:**
+   ```
+    npm start
+    
+   ```
+
+
+
+
+
