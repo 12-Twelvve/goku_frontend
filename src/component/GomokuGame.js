@@ -35,15 +35,17 @@ const GomokuGame = ({id}) => {
         }
         return res.json();
       })
-      .then((data) => {
-        console.log('game successfully updated !', data._id);
+      .then((result) => {
+        console.log('game successfully updated !', result);
+        if (result.winner!==null){
+          setGameEnded(true);
+          setWinner(true)
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
       });
       if (checkWin()) {
-        setGameEnded(true);
-        setWinner(true)
         fetch(`${API_URL}/game/winner/${gameId}`, {
           method: 'PUT',
           headers: {
@@ -57,15 +59,15 @@ const GomokuGame = ({id}) => {
           }
           return res.json();
         })
-        .then((data) => {
-          console.log('game winner successfully updated !', data._id);
+        .then((result) => {
+          console.log('game winner successfully updated !', result._id);
         })
         .catch((error) => {
           console.error('Error:', error);
         });
         return
-
-      } else if (checkDraw()) {
+      } 
+      else if (checkDraw()) {
         setGameEnded(true)
         return
       }
