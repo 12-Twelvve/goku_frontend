@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../component/AuthContext';
 import NavigationBar1 from '../component/NavigationBar1';
+import API_URL from '../component/Config';
 
 const LoginPage = ({ onLogin }) => {
   const { isAuthenticated, login, logout } = useAuth();
@@ -11,13 +12,24 @@ const LoginPage = ({ onLogin }) => {
   let navigate = useNavigate(); 
 
   const handleLogin = () => {
-    if (username === 'admin' && password === 'admin'){
-    //   store the login authentication on isauthenticated
-      navigate('/');
-      login()
-    } else {        
-      setError('Invalid username or password');
-    }
+    console.log({username, password})
+    fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({username, password}),
+      })
+      .then((data) => {
+        console.log('Login successful');
+        navigate('/');
+        login()
+        
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setError('Invalid username or password : '+error);
+      });
   };
 
   return (

@@ -3,16 +3,36 @@ import NavigationBar from '../component/NavigationBar';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../component/AuthContext';
 import { useBoardSize } from '../component/BoardsizeContext';
-
+import API_URL from '../component/Config';
 
 const HomePage = () => {
   const { isAuthenticated, login, logout } = useAuth();
   const { boardSize, setBoardSize } = useBoardSize();
+  const [game_state, setGame_state] = useState({});
 
   let navigate = useNavigate()
   const handleStartGame = () => {
     if(isAuthenticated){
-      navigate(`/game`)
+      fetch(`${API_URL}/game/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"moves":[],"board_size":boardSize, "winner":null}),
+      })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log('game successfully created !', data._id);
+        navigate(`/game/${data._id}`)
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
     }
     else{
       navigate("/login")

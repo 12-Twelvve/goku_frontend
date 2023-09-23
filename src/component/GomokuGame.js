@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBoardSize } from './BoardsizeContext';
+import API_URL from './Config';
 
-
-const GomokuGame = () => {
+const GomokuGame = ({id}) => {
+  const [gameId, setGameId] = useState(id)
   const { boardSize, setBoardSize } = useBoardSize();
   const [board, setBoard] = useState(Array(boardSize).fill(null).map(() => Array(boardSize).fill(0)));
   const [currentPlayer, setCurrentPlayer] = useState(1);
@@ -16,9 +17,52 @@ const GomokuGame = () => {
       const newBoard = [...board];
       newBoard[row][col] = currentPlayer;
       setBoard(newBoard);
+      // update db game
+      let move = {
+        "player":String(currentPlayer),
+        "location":[row, col]
+      }
+      fetch(`${API_URL}/game/${gameId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"move":move}),
+      })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log('game successfully updated !', data._id);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
       if (checkWin()) {
         setGameEnded(true);
         setWinner(true)
+        fetch(`${API_URL}/game/winner/${gameId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({"winner":currentPlayer===1?"Black":"White"}),
+        })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log('game winner successfully updated !', data._id);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
         return
 
       } else if (checkDraw()) {
@@ -84,6 +128,28 @@ const GomokuGame = () => {
     setCurrentPlayer(1);
     setWinner(false)
     setGameEnded(false)
+    // create new game ...
+    fetch(`${API_URL}/game/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({"moves":[],"board_size":boardSize, "winner":null}),
+    })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((data) => {
+      console.log('game successfully created !', data._id);
+      setGameId(data._id)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
   };
   const handleLeave = () => {
     // save to the local storage
